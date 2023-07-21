@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reply All</title>
+
+    <link href="prism.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow&display=swap" rel="stylesheet"> 
+
+
+
+</head>
+<body>
+
+    <button onclick="topFunction()" id="myBtn" title="Go to top"><i class="fa fa-chevron-up"></i></button> 
+
+    <div class="headerdiv" id="hdiv">
+    <div class="title">Reply-All Checker for Outlook</div>
+    </div>
+
+    <p>Here we create a pop-up to confirm if you really want to reply to all senders.</p>
+  
+
+    <p>Enable the Developer tab in the ribbon (File > Options > Customize Ribbon) and open the Visual Basic editor.</p>
+    <img src="img/ribbon.png" alt="The Developer Tab.">
+   
+    <p>Paste the code below into the editor then close it.</p>
+    <img src="img/vba.png" alt="Paste code into the editor.">
+
+    <p>The code.</p>
+    <div class="codebox">
+        <pre class="line-numbers"><code class="language-vba">
+Option Explicit
+Dim WithEvents oExpl As Explorer
+Dim WithEvents oItem As MailItem
+
+
+Private Sub Application_Startup()   
+  Set oExpl = Application.ActiveExplorer
+  MsgBox "Reply All Checker On" 
+End Sub
+
+
+Private Sub Application_Quit()  
+End Sub
+
+
+Private Sub oExpl_SelectionChange()
+    On Error Resume Next
+    Set oItem = oExpl.Selection.Item(1)
+End Sub
+
+
+Private Sub oItem_ReplyAll(ByVal Response As Object, Cancel As Boolean)
+  If MsgBox("Are you sure you want to reply to all of the senders of this message?", vbYesNo + vbQuestion, "Confirm Reply To All") = vbNo Then  
+    Cancel = True
+  End If
+End Sub 
+            </code>
+        </pre>
+</div>
+
+<p>When you restart Outlook, enable macros.</p>
+<img src="img/notice.png" alt="Enable macros dialog.">
+
+<p>A pop-up will tell you that the reply all checker is on.</p>
+<img src="img/on.png" alt="Enable macros dialog.">
+
+<p>Now whenever you select "reply all" a pop-up will now ask you if are sure.</p>
+<img src="img/confirm.png" alt="Confirm you want to reply to all.">
+
+    
+    <script src="prism.js"></script>
+    <script>
+         //Get the button:
+  mybutton = document.getElementById("myBtn");
+  
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function() {scrollFunction()};
+  
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+  
+  // When the user clicks on the button, scroll to the top of the document
+  function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+  } 
+    </script>
+</body>
+</html>

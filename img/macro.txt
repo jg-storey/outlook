@@ -1,0 +1,34 @@
+Option Explicit
+Dim WithEvents oExpl As Explorer
+Dim WithEvents oItem As MailItem
+
+
+Private Sub Application_Startup()
+
+    
+    Set oExpl = Application.ActiveExplorer
+    MsgBox "Reply All Checker On"
+   
+
+End Sub
+
+Private Sub Application_Quit()
+
+    
+
+End Sub
+
+
+Private Sub oExpl_SelectionChange()
+   On Error Resume Next
+   Set oItem = oExpl.Selection.Item(1)
+End Sub
+
+Private Sub oItem_ReplyAll(ByVal Response As Object, Cancel As Boolean)
+   If MsgBox("Are you sure you want to reply to all of the senders of this message?", vbYesNo + vbQuestion, "Confirm Reply To All") = vbNo Then
+ 
+        Cancel = True
+ 
+    End If
+   
+End Sub
